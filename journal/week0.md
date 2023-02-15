@@ -16,3 +16,8 @@ However, there are some important technical and sevice limitations with EC2 to c
 * Hardware failures: Hardware failures can impact the performance and availability of EC2 instances. When a hardware failure occurs, the impacted instance may be terminated, resulting in data loss and downtime for the application or workload running on that instance.
 
 It is therefore important to understand the technical and service limitations of EC2 instance types when selecting an instance type for a solution, as these limitations can impact the performance, scalability, and cost of a solution.
+
+## Conceptual diagram of Cruddur
+<img width="1039" alt="Screen Shot 2023-02-14 at 11 15 56 PM" src="https://user-images.githubusercontent.com/32568907/218928568-96d81af1-9451-435c-ae95-58f4ace35f10.png">
+
+https://lucid.app/lucidchart/bf1ab3cd-9c48-45b7-b4f7-1f7281d1cf4f/edit?beaconFlowId=DE08CE9784C00632&invitationId=inv_c10d46b4-de7a-40ab-b1ad-b654f3fcf315&page=0_0#
