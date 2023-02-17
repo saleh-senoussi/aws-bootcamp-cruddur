@@ -26,3 +26,7 @@ https://lucid.app/lucidchart/bf1ab3cd-9c48-45b7-b4f7-1f7281d1cf4f/edit?beaconFlo
 ### CI/CD Diagram
 <img width="622" alt="Screen Shot 2023-02-16 at 7 40 43 PM" src="https://user-images.githubusercontent.com/32568907/219520474-ecc99ff1-e468-4884-a9eb-bcf66e9d642f.png">
 
+## Other Week 0 Tasks completed
+* Review c4model
+* Well-Architected Tool Overview
+* Create AWS IAM Users and Roles
