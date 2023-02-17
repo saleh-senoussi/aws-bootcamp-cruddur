@@ -17,7 +17,12 @@ However, there are some important technical and sevice limitations with EC2 to c
 
 It is therefore important to understand the technical and service limitations of EC2 instance types when selecting an instance type for a solution, as these limitations can impact the performance, scalability, and cost of a solution.
 
-## Conceptual diagram of Cruddur
+## Cruddur Diagrams
+https://lucid.app/lucidchart/bf1ab3cd-9c48-45b7-b4f7-1f7281d1cf4f/edit?beaconFlowId=DE08CE9784C00632&invitationId=inv_c10d46b4-de7a-40ab-b1ad-b654f3fcf315&page=0_0#
+
+### Conceptual Diagram
 <img width="1039" alt="Screen Shot 2023-02-14 at 11 15 56 PM" src="https://user-images.githubusercontent.com/32568907/218928568-96d81af1-9451-435c-ae95-58f4ace35f10.png">
 
-https://lucid.app/lucidchart/bf1ab3cd-9c48-45b7-b4f7-1f7281d1cf4f/edit?beaconFlowId=DE08CE9784C00632&invitationId=inv_c10d46b4-de7a-40ab-b1ad-b654f3fcf315&page=0_0#
+### CI/CD Diagram
+<img width="622" alt="Screen Shot 2023-02-16 at 7 40 43 PM" src="https://user-images.githubusercontent.com/32568907/219520474-ecc99ff1-e468-4884-a9eb-bcf66e9d642f.png">
+
