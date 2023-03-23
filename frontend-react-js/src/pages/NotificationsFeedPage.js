@@ -9,7 +9,7 @@ import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
-export default function HomeFeedPage() {
+export default function NotificationsFeedPage() {
     const [activities, setActivities] = React.useState([]);
     const [popped, setPopped] = React.useState(false);
     const [poppedReply, setPoppedReply] = React.useState(false);
@@ -67,7 +67,7 @@ export default function HomeFeedPage() {
 
     return (
         <article>
-            <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
+            <DesktopNavigation user={user} active={'notifications'} setPopped={setPopped} />
             <div className='content'>
                 <ActivityForm
                     popped={popped}
@@ -82,7 +82,7 @@ export default function HomeFeedPage() {
                     activities={activities}
                 />
                 <ActivityFeed
-                    title="Home"
+                    title="notifications"
                     setReplyActivity={setReplyActivity}
                     setPopped={setPoppedReply}
                     activities={activities}
