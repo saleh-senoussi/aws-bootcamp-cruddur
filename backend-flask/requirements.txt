@@ -8,3 +8,6 @@ opentelemetry-instrumentation-flask
 opentelemetry-instrumentation-requests
 
 python-jose
+
+psycopg[binary]
+psycopg[pool]
