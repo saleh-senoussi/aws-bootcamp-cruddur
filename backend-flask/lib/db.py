@@ -1,5 +1,8 @@
 from psycopg_pool import ConnectionPool
 import os
+import re
+import sys
+from flask import current_app as app
 
 class Db:
   def __init__(self):
@@ -9,12 +12,32 @@ class Db:
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
   
-  def query_commit(self, sql):
+  def template(self, name):
+    template_path = os.path.join(app.root_path, 'db', 'sql', name + '.sql')
+    with open(template_path, 'r') as f:
+      template_content = f.read()
+      return template_content
+  
+  def print_sql(self, title, sql):
+    cyan='\033[96m'
+    no_color='\033[0m'
+    app.logger.debug(title, sql)
+    print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}")
+    print(sql)
+  
+  def query_commit(self, sql, params):
+    pattern = r"\bRETURNING\b"
+    is_returning_id = re.search(pattern, sql)
     try:
-      conn = self.pool.connection()
-      cur = conn.cursor()
-      cur.execute(sql)
-      conn.commit()
+      with self.pool.connection() as conn:
+        cur = conn.cursor()
+        cur.execute(sql, params)
+        returning_id = ""
+        if is_returning_id:
+          returning_id = curr.fetchone()[0]
+        conn.commit()
+        if is_returning_id:
+          return returning_id
     except Exception as err:
       self.print_sql_err(err)
   
@@ -63,14 +86,11 @@ class Db:
     line_num = traceback.tb_lineno
 
     # print the connect() error
-    print ("\npsycopg2 ERROR:", err, "on line number:", line_num)
-    print ("psycopg2 traceback:", traceback, "-- type:", err_type)
-
-    # psycopg2 extensions.Diagnostics object attribute
-    print ("\nextensions.Diagnostics:", err.diag)
+    print ("\npsycopg ERROR:", err, "on line number:", line_num)
+    print ("psycopg traceback:", traceback, "-- type:", err_type)
 
     # print the pgcode and pgerror exceptions
-    print ("pgerror:", err.pgerror)
-    print ("pgcode:", err.pgcode, "\n")
+    # print ("pgerror:", err.pgerror)
+    # print ("pgcode:", err.pgcode, "\n")
 
 db = Db()
