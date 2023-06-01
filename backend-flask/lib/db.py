@@ -12,8 +12,11 @@ class Db:
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
   
-  def template(self, name):
-    template_path = os.path.join(app.root_path, 'db', 'sql', name + '.sql')
+  def template(self, *args):
+    pathing = list((app.root_path, 'db', 'sql') + args)
+    pathing[-1] = pathing[-1] + '.sql'
+
+    template_path = os.path.join(*pathing)
     with open(template_path, 'r') as f:
       template_content = f.read()
       return template_content
@@ -25,7 +28,8 @@ class Db:
     print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}")
     print(sql)
   
-  def query_commit(self, sql, params):
+  def query_commit(self, sql, params={}):
+    self.print_sql('commit with returning', sql)
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
     try:
@@ -42,23 +46,23 @@ class Db:
       self.print_sql_err(err)
   
   # when we want to return a json object
-  def query_object_json(self, sql):
-    print("SQL STATEMENT OBJECT ---", sql, "\n")
+  def query_object_json(self, sql, params={}):
+    self.print_sql('json', sql)
     wrapped_sql = self.query_wrap_object(sql)
     with self.pool.connection() as conn:
       cur = conn.cursor()
-      cur.execute(wrapped_sql)
+      cur.execute(wrapped_sql, params)
       # this will return a tuple
       # the first field being the data
       json = cur.fetchone()
 
   # when we want to return a json array of object
-  def query_array_json(self, sql):
-    print("SQL STATEMENT ARRAY ---", sql, "\n")
+  def query_array_json(self, sql, params={}):
+    self.print_sql('array', sql)
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
       cur = conn.cursor()
-      cur.execute(wrapped_sql)
+      cur.execute(wrapped_sql, params)
       json = cur.fetchone()
       return json[0]
     
