@@ -17,6 +17,11 @@ class Db:
     pathing[-1] = pathing[-1] + '.sql'
 
     template_path = os.path.join(*pathing)
+
+    cyan='\033[96m'
+    no_color='\033[0m'
+    print(f"{cyan}Load SQL Template: [{template_path}]  {no_color}", flush=True)
+
     with open(template_path, 'r') as f:
       template_content = f.read()
       return template_content
@@ -25,29 +30,40 @@ class Db:
     cyan='\033[96m'
     no_color='\033[0m'
     app.logger.debug(title, sql)
-    print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}")
-    print(sql)
+    print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}", flush=True)
+    print(sql, flush=True)
+
+  def print_params(self, params):
+    blue='\033[93m'
+    no_color='\033[0m'
+    print(f"{blue}SQL Params:{no_color}", flush=True)
+    for key, value in params.items():
+      print(key, ':', value, flush=True)
   
   def query_commit(self, sql, params={}):
     self.print_sql('commit with returning', sql)
+    self.print_params(params)
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
     try:
       with self.pool.connection() as conn:
-        cur = conn.cursor()
-        cur.execute(sql, params)
-        returning_id = ""
-        if is_returning_id:
-          returning_id = curr.fetchone()[0]
-        conn.commit()
-        if is_returning_id:
-          return returning_id
+        with conn.cursor() as cur:
+          print(params, flush=True)
+          cur.execute(sql, params)
+          returning_id = ""
+          if is_returning_id:
+            returning_id = cur.fetchone()[0]
+          conn.commit()
+          if is_returning_id:
+            return returning_id
     except Exception as err:
       self.print_sql_err(err)
   
   # when we want to return a json object
   def query_object_json(self, sql, params={}):
     self.print_sql('json', sql)
+    self.print_params(params)
+    print(params, flush=True)
     wrapped_sql = self.query_wrap_object(sql)
     with self.pool.connection() as conn:
       cur = conn.cursor()
@@ -56,9 +72,15 @@ class Db:
       # the first field being the data
       json = cur.fetchone()
 
+      if json == None:
+        return "{}"
+      else:
+        return json[0]
+
   # when we want to return a json array of object
   def query_array_json(self, sql, params={}):
     self.print_sql('array', sql)
+    self.print_params(params)
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
       cur = conn.cursor()
