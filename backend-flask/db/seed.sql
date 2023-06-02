@@ -3,15 +3,18 @@
 INSERT INTO
     public.users (
         display_name,
+        email,
         handle,
         cognito_user_id
     )
 VALUES (
-        'Andrew Brown',
-        'andrewbrown',
+        'Saleh Senoussi',
+        'sabbay026@gmail.com',
+        'saleh',
         'MOCK'
     ), (
         'Andrew Bayko',
+        'bayko@exampro.com',
         'bayko',
         'MOCK'
     );
@@ -22,7 +25,7 @@ VALUES ( (
             SELECT uuid
             from public.users
             WHERE
-                users.handle = 'andrewbrown'
+                users.handle = 'saleh'
             LIMIT
                 1
         ), 'This was imported as seed data!', current_timestamp + interval '10 day'
