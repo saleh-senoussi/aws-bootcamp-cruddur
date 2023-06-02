@@ -29,7 +29,6 @@ class Db:
   def print_sql(self, title, sql):
     cyan='\033[96m'
     no_color='\033[0m'
-    app.logger.debug(title, sql)
     print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}", flush=True)
     print(sql, flush=True)
 
