@@ -26,11 +26,11 @@ class Db:
       template_content = f.read()
       return template_content
   
-  def print_sql(self, title, sql):
+  def print_sql(self, title, sql, params={}):
     cyan='\033[96m'
     no_color='\033[0m'
     print(f"{cyan}SQL STATEMENT-[{title}]-----{no_color}", flush=True)
-    print(sql, flush=True)
+    print(sql, params, flush=True)
 
   def print_params(self, params):
     blue='\033[93m'
@@ -40,7 +40,7 @@ class Db:
       print(key, ':', value, flush=True)
   
   def query_commit(self, sql, params={}):
-    self.print_sql('commit with returning', sql)
+    self.print_sql('commit with returning', sql, params)
     self.print_params(params)
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
@@ -60,7 +60,7 @@ class Db:
   
   # when we want to return a json object
   def query_object_json(self, sql, params={}):
-    self.print_sql('json', sql)
+    self.print_sql('json', sql, params)
     self.print_params(params)
     print(params, flush=True)
     wrapped_sql = self.query_wrap_object(sql)
@@ -78,7 +78,7 @@ class Db:
 
   # when we want to return a json array of object
   def query_array_json(self, sql, params={}):
-    self.print_sql('array', sql)
+    self.print_sql('array', sql, params)
     self.print_params(params)
     wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
@@ -86,6 +86,16 @@ class Db:
       cur.execute(wrapped_sql, params)
       json = cur.fetchone()
       return json[0]
+
+  # when we want to return a a single value
+  def query_value(self,sql,params={}):
+    self.print_sql('value',sql,params)
+
+    with self.pool.connection() as conn:
+      with conn.cursor() as cur:
+        cur.execute(sql,params)
+        json = cur.fetchone()
+        return json[0]
     
   def query_wrap_object(self,template):
     sql = f"""
