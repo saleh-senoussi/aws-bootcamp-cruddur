@@ -17,6 +17,11 @@ VALUES (
         'bayko@exampro.com',
         'bayko',
         'MOCK'
+    ), (
+        'Ahmat Arnimi',
+        'arnimi@exampro.com',
+        'arnimi',
+        'MOCK'
     );
 
 INSERT INTO
