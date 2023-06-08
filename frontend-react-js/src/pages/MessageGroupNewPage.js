@@ -27,7 +27,8 @@ export default function MessageGroupPage() {
       });
       let resJson = await res.json();
       if (res.status === 200) {
-        setMessageGroups(resJson)
+        console.log(resJson)
+        setOtherUser(resJson)
       } else {
         console.log(res)
       }
@@ -80,7 +81,7 @@ export default function MessageGroupPage() {
     <article>
       <DesktopNavigation user={user} active={'home'} setPopped={setPopped} />
       <section className='message_groups'>
-        <MessageGroupFeed message_groups={messageGroups} />
+        <MessageGroupFeed otherUser={otherUser} message_groups={messageGroups} />
       </section>
       <div className='content messages'>
         <MessagesFeed messages={messages} />
